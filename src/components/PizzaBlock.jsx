@@ -1,10 +1,14 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 export default function PizzaBlock({
   title = 'defaultPizza',
   price = 'free',
   ...props
 }) {
+  const [pizzaCount, setPizzaCount] = useState(0)
+
+  // setPizzaCount(pizzaCount + 1)
+
   return (
     <div className='pizza-block'>
       <img
@@ -26,7 +30,11 @@ export default function PizzaBlock({
       </div>
       <div className='pizza-block__bottom'>
         <div className='pizza-block__price'>от {price} ₽</div>
-        <div className='button button--outline button--add'>
+        <button
+          onClick={() => {
+            setPizzaCount(pizzaCount + 1)
+          }}
+          className='button button--outline button--add'>
           <svg
             width='12'
             height='12'
@@ -39,8 +47,8 @@ export default function PizzaBlock({
             />
           </svg>
           <span>Добавить</span>
-          <i>2</i>
-        </div>
+          <i>{pizzaCount}</i>
+        </button>
       </div>
     </div>
   )
