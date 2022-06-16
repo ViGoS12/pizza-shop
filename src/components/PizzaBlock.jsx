@@ -7,7 +7,9 @@ export default function PizzaBlock({
 }) {
   const [pizzaCount, setPizzaCount] = useState(0)
 
-  // setPizzaCount(pizzaCount + 1)
+  const addPizzaCount = () => {
+    setPizzaCount(pizzaCount + 1)
+  }
 
   return (
     <div className='pizza-block'>
@@ -31,9 +33,7 @@ export default function PizzaBlock({
       <div className='pizza-block__bottom'>
         <div className='pizza-block__price'>от {price} ₽</div>
         <button
-          onClick={() => {
-            setPizzaCount(pizzaCount + 1)
-          }}
+          onClick={addPizzaCount}
           className='button button--outline button--add'>
           <svg
             width='12'
