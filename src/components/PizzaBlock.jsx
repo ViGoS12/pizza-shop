@@ -4,12 +4,20 @@ export default function PizzaBlock({
   title = 'defaultPizza',
   price = 'free',
   imageUrl,
+  sizes,
+  types,
   ...props
 }) {
-  const [pizzaCount, setPizzaCount] = useState(0)
+  const typeNames = ['тонкое', 'традиционное']
 
-  const addPizzaCount = () => {
-    setPizzaCount(pizzaCount + 1)
+  const [activeType, setActiveType] = useState(0)
+  const [activeSize, setActiveSize] = useState(0)
+
+  const onClickType = (index) => {
+    setActiveType(index)
+  }
+  const onClickSize = (index) => {
+    setActiveSize(index)
   }
 
   return (
@@ -18,20 +26,28 @@ export default function PizzaBlock({
       <h4 className='pizza-block__title'>{title}</h4>
       <div className='pizza-block__selector'>
         <ul>
-          <li>тонкое</li>
-          <li>традиционное</li>
+          {/* [0,1] */}
+          {types.map((typeId) => (
+            <li
+              onClick={() => onClickType(typeId)}
+              className={activeType === typeId ? 'active' : ''}>
+              {typeNames[typeId]}{' '}
+            </li>
+          ))}
         </ul>
         <ul>
-          <li>26 см.</li>
-          <li>30 см.</li>
-          <li>40 см.</li>
+          {sizes.map((size, i) => (
+            <li
+              onClick={() => onClickSize(i)}
+              className={activeSize === i ? 'active' : ''}>
+              {size} см.
+            </li>
+          ))}
         </ul>
       </div>
       <div className='pizza-block__bottom'>
         <div className='pizza-block__price'>от {price} ₽</div>
-        <button
-          onClick={addPizzaCount}
-          className='button button--outline button--add'>
+        <button className='button button--outline button--add'>
           <svg
             width='12'
             height='12'
@@ -44,7 +60,7 @@ export default function PizzaBlock({
             />
           </svg>
           <span>Добавить</span>
-          <i>{pizzaCount}</i>
+          <i>{0}</i>
         </button>
       </div>
     </div>
