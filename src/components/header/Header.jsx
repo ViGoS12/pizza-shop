@@ -1,7 +1,7 @@
 import React from 'react'
 import logo from '../../assets/img/pizza-logo.svg'
 
-export default function Heade() {
+export default function Header() {
   return (
     <div className='header'>
       <div className='container'>
