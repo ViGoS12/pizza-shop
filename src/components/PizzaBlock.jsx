@@ -26,9 +26,9 @@ export default function PizzaBlock({
       <h4 className='pizza-block__title'>{title}</h4>
       <div className='pizza-block__selector'>
         <ul>
-          {/* [0,1] */}
           {types.map((typeId) => (
             <li
+              key={typeId}
               onClick={() => onClickType(typeId)}
               className={activeType === typeId ? 'active' : ''}>
               {typeNames[typeId]}{' '}
@@ -38,6 +38,7 @@ export default function PizzaBlock({
         <ul>
           {sizes.map((size, i) => (
             <li
+              key={size}
               onClick={() => onClickSize(i)}
               className={activeSize === i ? 'active' : ''}>
               {size} см.
