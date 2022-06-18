@@ -1,9 +1,11 @@
 import React from 'react'
+
 import Cart from '../pages/Cart'
 import Home from './../pages/Home'
+import NotFound from './../pages/NotFound'
 
 export const publicRoutes = [
   { path: '/home', element: <Home /> },
   { path: '/cart', element: <Cart /> },
-  { path: '*', element: <Home /> },
+  { path: '*', element: <NotFound /> },
 ]
