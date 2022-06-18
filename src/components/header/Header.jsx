@@ -6,7 +6,7 @@ export default function Header() {
   return (
     <div className='header'>
       <div className='container'>
-        <Link to='/home' className='header__logo'>
+        <Link to='/' className='header__logo'>
           <img width='38' src={logo} alt='Pizza logo' />
           <div>
             <h1>React Pizza</h1>
