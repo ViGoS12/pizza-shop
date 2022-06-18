@@ -9,7 +9,7 @@ export default function Sort() {
 
   const onClickListItem = (index) => {
     setSelectedSort(index)
-    setIsVisible(!isVisible)
+    setIsVisible((visible) => !visible)
   }
 
   return (
