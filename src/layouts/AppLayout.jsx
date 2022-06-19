@@ -1,10 +1,10 @@
 import React from 'react'
 import Header from './../components/header/Header'
 
-export default function AppLayout({ searchValue, setSearchValue, children }) {
+export default function AppLayout({ children }) {
   return (
     <div className='wrapper'>
-      <Header searchValue={searchValue} setSearchValue={setSearchValue} />
+      <Header />
       <div className='content'>{children}</div>
     </div>
   )

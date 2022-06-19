@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from 'react'
+import React, { createContext, useEffect, useState } from 'react'
 
 import Categories from '../components/categories/Categories'
 import Sort from '../components/sort/Sort'
 import Skeleton from './../components/PizzaBlock/Skeleton'
 import PizzaBlock from './../components/PizzaBlock'
 import AppLayout from '../layouts/AppLayout'
+
+export const SearchContext = createContext('')
 
 export default function Home() {
   const [items, setItems] = useState([])
@@ -36,22 +38,24 @@ export default function Home() {
   }, [categoryId, sortType, searchValue])
 
   return (
-    <AppLayout searchValue={searchValue} setSearchValue={setSearchValue}>
-      <div className='container'>
-        <div className='content__top'>
-          <Categories
-            value={categoryId}
-            onClickCategory={(id) => setCategoryId(id)}
-          />
-          <Sort value={sortType} onChangeSort={(id) => setSortType(id)} />
+    <SearchContext.Provider value={{ searchValue, setSearchValue }}>
+      <AppLayout>
+        <div className='container'>
+          <div className='content__top'>
+            <Categories
+              value={categoryId}
+              onClickCategory={(id) => setCategoryId(id)}
+            />
+            <Sort value={sortType} onChangeSort={(id) => setSortType(id)} />
+          </div>
+          <h2 className='content__title'>Все пиццы</h2>
+          <div className='content__items'>
+            {isLoading
+              ? [...new Array(8)].map((_, i) => <Skeleton key={i} />)
+              : items.map((obj) => <PizzaBlock key={obj.id} {...obj} />)}
+          </div>
         </div>
-        <h2 className='content__title'>Все пиццы</h2>
-        <div className='content__items'>
-          {isLoading
-            ? [...new Array(8)].map((_, i) => <Skeleton key={i} />)
-            : items.map((obj) => <PizzaBlock key={obj.id} {...obj} />)}
-        </div>
-      </div>
-    </AppLayout>
+      </AppLayout>
+    </SearchContext.Provider>
   )
 }
