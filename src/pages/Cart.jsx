@@ -2,11 +2,9 @@ import React from 'react'
 
 import AppLayout from '../layouts/AppLayout'
 import EmptyCart from '../components/EmptyCart'
+import SelectedPizzas from './../components/SelectedPizzas'
 
 export default function Cart() {
-  return (
-    <AppLayout>
-      <EmptyCart />
-    </AppLayout>
-  )
+  const isEmpty = false
+  return <AppLayout>{isEmpty ? <EmptyCart /> : <SelectedPizzas />}</AppLayout>
 }

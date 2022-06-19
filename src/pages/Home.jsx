@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import Categories from '../components/categories/Categories'
 import Sort from '../components/sort/Sort'
 import Skeleton from './../components/PizzaBlock/Skeleton'
-import PizzaBlock from './../components/PizzaBlock/index'
+import PizzaBlock from './../components/PizzaBlock'
 import AppLayout from '../layouts/AppLayout'
 
 export default function Home() {
@@ -17,6 +17,7 @@ export default function Home() {
         setItems(array)
         setIsLoading(false)
       })
+    window.scrollTo(0, 0)
   }, [])
 
   return (

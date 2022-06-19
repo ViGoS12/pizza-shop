@@ -56,9 +56,14 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    @media (max-width: 768px) {
+    @media (max-width: 1300px) {
       flex-direction: column;
     }
+  }
+}
+.categories {
+  @media (max-width: 1300px) {
+    margin-bottom: 20px;
   }
 }
 
