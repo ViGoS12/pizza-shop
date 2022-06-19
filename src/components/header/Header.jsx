@@ -3,7 +3,7 @@ import logo from '../../assets/img/pizza-logo.svg'
 import { Link } from 'react-router-dom'
 import Search from '../Search/'
 
-export default function Header() {
+export default function Header({ searchValue, setSearchValue }) {
   return (
     <div className='header'>
       <div className='container'>
@@ -14,7 +14,10 @@ export default function Header() {
             <p>самая вкусная пицца во вселенной</p>
           </div>
         </Link>
-        <Search />
+        {/* TODO: Для теста, скрывает SearchBar везде кроме home страницы */}
+        {window.location.href === 'http://localhost:3000/' && (
+          <Search searchValue={searchValue} setSearchValue={setSearchValue} />
+        )}
         <Link to='/cart' className='header__cart button button--cart'>
           <span>520 ₽</span>
           <div className='button__delimiter'></div>

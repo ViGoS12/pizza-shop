@@ -14,16 +14,18 @@ export default function Home() {
     name: 'популярности',
     sortProperty: 'rating',
   })
+  const [searchValue, setSearchValue] = useState('')
 
   useEffect(() => {
     const sortBy = sortType.sortProperty.replace('-', '')
     const order = sortType.sortProperty.includes('-') ? 'asc' : 'desc'
     const category = categoryId > 0 ? `category=${categoryId}` : ''
+    const search = searchValue ? `&search=${searchValue}` : ''
 
     setIsLoading(true)
 
     fetch(
-      `https://62adae8c402135c7acc4f3b7.mockapi.io/items?${category}&sortBy=${sortBy}&order=${order}`
+      `https://62adae8c402135c7acc4f3b7.mockapi.io/items?${category}&sortBy=${sortBy}&order=${order}${search}`
     )
       .then((res) => res.json())
       .then((array) => {
@@ -31,10 +33,10 @@ export default function Home() {
         setIsLoading(false)
       })
     window.scrollTo(0, 0)
-  }, [categoryId, sortType])
+  }, [categoryId, sortType, searchValue])
 
   return (
-    <AppLayout>
+    <AppLayout searchValue={searchValue} setSearchValue={setSearchValue}>
       <div className='container'>
         <div className='content__top'>
           <Categories

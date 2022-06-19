@@ -1,8 +1,15 @@
 .root {
+  flex-grow: 1;
+  max-width: 500px;
   position: relative;
+  margin: 0 10px;
+  @media (max-width: 768px) {
+    width: 100%;
+    margin: 10px 0px;
+  }
 }
 
-.icon {
+.searchIcon {
   width: 33px;
   height: 33px;
   position: absolute;
@@ -10,11 +17,25 @@
   top: 7px;
 }
 
+.clearIcon {
+  width: 22px;
+  height: 22px;
+  opacity: 0.3;
+  position: absolute;
+  right: 10px;
+  top: 13px;
+
+  &:hover {
+    opacity: 0.8;
+    cursor: pointer;
+  }
+}
+
 .input {
   border: 1px solid rgba(0, 0, 0, 0.1);
   padding: 12px 20px;
   padding-left: 45px;
-  width: 500px;
+  width: 100%;
   border-radius: 10px;
   font-size: 16px;
 
