@@ -9,13 +9,21 @@ import AppLayout from '../layouts/AppLayout'
 export default function Home() {
   const [items, setItems] = useState([])
   const [isLoading, setIsLoading] = useState(true)
-  const [CategoryId, setCategoryId] = useState(0)
-  const [sortType, setSortType] = useState(0)
+  const [categoryId, setCategoryId] = useState(0)
+  const [sortType, setSortType] = useState({
+    name: 'популярности',
+    sortProperty: 'rating',
+  })
 
   useEffect(() => {
+    const sortBy = sortType.sortProperty.replace('-', '')
+    const order = sortType.sortProperty.includes('-') ? 'asc' : 'desc'
+    const category = categoryId > 0 ? `category=${categoryId}` : ''
+
     setIsLoading(true)
+
     fetch(
-      'https://62adae8c402135c7acc4f3b7.mockapi.io/items?category=' + CategoryId
+      `https://62adae8c402135c7acc4f3b7.mockapi.io/items?${category}&sortBy=${sortBy}&order=${order}`
     )
       .then((res) => res.json())
       .then((array) => {
@@ -23,17 +31,17 @@ export default function Home() {
         setIsLoading(false)
       })
     window.scrollTo(0, 0)
-  }, [CategoryId])
+  }, [categoryId, sortType])
 
   return (
     <AppLayout>
       <div className='container'>
         <div className='content__top'>
           <Categories
-            value={CategoryId}
+            value={categoryId}
             onClickCategory={(id) => setCategoryId(id)}
           />
-          <Sort sortValue={sortType} onChangeSort={(id) => setSortType(id)} />
+          <Sort value={sortType} onChangeSort={(id) => setSortType(id)} />
         </div>
         <h2 className='content__title'>Все пиццы</h2>
         <div className='content__items'>
