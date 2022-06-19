@@ -10,6 +10,7 @@ export default function Home() {
   const [items, setItems] = useState([])
   const [isLoading, setIsLoading] = useState(true)
   const [CategoryId, setCategoryId] = useState(0)
+  const [sortType, setSortType] = useState(0)
 
   useEffect(() => {
     setIsLoading(true)
@@ -32,7 +33,7 @@ export default function Home() {
             value={CategoryId}
             onClickCategory={(id) => setCategoryId(id)}
           />
-          <Sort />
+          <Sort sortValue={sortType} onChangeSort={(id) => setSortType(id)} />
         </div>
         <h2 className='content__title'>Все пиццы</h2>
         <div className='content__items'>

@@ -1,14 +1,13 @@
 import React, { useState } from 'react'
 
-export default function Sort() {
+export default function Sort({ sortValue, onChangeSort }) {
   const [isVisible, setIsVisible] = useState(false)
-  const [selectedSort, setSelectedSort] = useState(0)
 
   const list = ['популярности', 'цене', 'алфавиту']
-  const sortName = list[selectedSort]
+  const sortName = list[sortValue]
 
   const onClickListItem = (index) => {
-    setSelectedSort(index)
+    onChangeSort(index)
     setIsVisible((visible) => !visible)
   }
 
@@ -36,7 +35,7 @@ export default function Sort() {
               <li
                 key={i}
                 onClick={() => onClickListItem(i)}
-                className={selectedSort === i ? 'active' : ''}>
+                className={sortValue === i ? 'active' : ''}>
                 {name}
               </li>
             ))}
