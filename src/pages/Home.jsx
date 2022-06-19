@@ -9,22 +9,29 @@ import AppLayout from '../layouts/AppLayout'
 export default function Home() {
   const [items, setItems] = useState([])
   const [isLoading, setIsLoading] = useState(true)
+  const [CategoryId, setCategoryId] = useState(0)
 
   useEffect(() => {
-    fetch('https://62adae8c402135c7acc4f3b7.mockapi.io/items')
+    setIsLoading(true)
+    fetch(
+      'https://62adae8c402135c7acc4f3b7.mockapi.io/items?category=' + CategoryId
+    )
       .then((res) => res.json())
       .then((array) => {
         setItems(array)
         setIsLoading(false)
       })
     window.scrollTo(0, 0)
-  }, [])
+  }, [CategoryId])
 
   return (
     <AppLayout>
       <div className='container'>
         <div className='content__top'>
-          <Categories />
+          <Categories
+            value={CategoryId}
+            onClickCategory={(id) => setCategoryId(id)}
+          />
           <Sort />
         </div>
         <h2 className='content__title'>Все пиццы</h2>
