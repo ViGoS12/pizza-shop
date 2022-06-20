@@ -1,4 +1,6 @@
 import React, { createContext, useEffect, useState } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { setCategoryId } from '../redux/slices/filterSlice'
 
 import Categories from '../components/categories/Categories'
 import Sort from '../components/sort/Sort'
@@ -9,14 +11,20 @@ import AppLayout from '../layouts/AppLayout'
 export const SearchContext = createContext('')
 
 export default function Home() {
+  const dispatch = useDispatch()
+  const categoryId = useSelector((state) => state.filter.categoryId)
+
   const [items, setItems] = useState([])
   const [isLoading, setIsLoading] = useState(true)
-  const [categoryId, setCategoryId] = useState(0)
   const [sortType, setSortType] = useState({
     name: 'популярности',
     sortProperty: 'rating',
   })
   const [searchValue, setSearchValue] = useState('')
+
+  const onChangeCategory = (id) => {
+    dispatch(setCategoryId(id))
+  }
 
   useEffect(() => {
     const sortBy = sortType.sortProperty.replace('-', '')
@@ -44,7 +52,7 @@ export default function Home() {
           <div className='content__top'>
             <Categories
               value={categoryId}
-              onClickCategory={(id) => setCategoryId(id)}
+              onChangeCategory={onChangeCategory}
             />
             <Sort value={sortType} onChangeSort={(id) => setSortType(id)} />
           </div>
