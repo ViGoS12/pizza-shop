@@ -1,19 +1,11 @@
 import React, { useState } from 'react'
+import { CATEGORIES } from '../../constants'
 
 export default function Categories({ value, onChangeCategory }) {
-  const categories = [
-    'Все',
-    'Мясные',
-    'Вегетарианская',
-    'Гриль',
-    'Острые',
-    'Закрытые',
-  ]
-
   return (
     <div className='categories'>
       <ul>
-        {categories.map((categoryName, i) => (
+        {CATEGORIES.map((categoryName, i) => (
           <li
             key={i}
             onClick={() => onChangeCategory(i)}
