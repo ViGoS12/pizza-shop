@@ -1,13 +1,13 @@
 import React, { useState } from 'react'
 
+const list = [
+  { name: 'популярности', sortProperty: 'rating' },
+  { name: 'цене', sortProperty: 'price' },
+  { name: 'алфавиту', sortProperty: '-title' },
+]
+
 export default function Sort({ value, onChangeSort }) {
   const [isVisible, setIsVisible] = useState(false)
-
-  const list = [
-    { name: 'популярности', sortProperty: 'rating' },
-    { name: 'цене', sortProperty: 'price' },
-    { name: 'алфавиту', sortProperty: '-title' },
-  ]
 
   const onClickListItem = (index) => {
     onChangeSort(index)

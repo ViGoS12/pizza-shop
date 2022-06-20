@@ -1,6 +1,7 @@
 import React, { createContext, useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { setCategoryId, setSortType } from '../redux/slices/filterSlice'
+import axios from 'axios'
 
 import Categories from '../components/categories/Categories'
 import Sort from '../components/sort/Sort'
@@ -12,8 +13,8 @@ export const SearchContext = createContext('')
 
 export default function Home() {
   const dispatch = useDispatch()
-  const categoryId = useSelector((state) => state.filter.categoryId)
-  const sortType = useSelector((state) => state.filter.sort)
+  const { categoryId, sort } = useSelector((state) => state.filter)
+  const sortType = sort
 
   const [items, setItems] = useState([])
   const [isLoading, setIsLoading] = useState(true)
@@ -35,12 +36,12 @@ export default function Home() {
 
     setIsLoading(true)
 
-    fetch(
-      `https://62adae8c402135c7acc4f3b7.mockapi.io/items?${category}&sortBy=${sortBy}&order=${order}${search}`
-    )
-      .then((res) => res.json())
-      .then((array) => {
-        setItems(array)
+    axios
+      .get(
+        `https://62adae8c402135c7acc4f3b7.mockapi.io/items?${category}&sortBy=${sortBy}&order=${order}${search}`
+      )
+      .then((res) => {
+        setItems(res.data)
         setIsLoading(false)
       })
     window.scrollTo(0, 0)
