@@ -14,8 +14,7 @@ export default function Header() {
             <p>самая вкусная пицца во вселенной</p>
           </div>
         </Link>
-        {/* TODO: Для теста, скрывает SearchBar везде кроме home страницы */}
-        {window.location.href === 'http://localhost:3000/' && <Search />}
+        <Search />
         <Link to='/cart' className='header__cart button button--cart'>
           <span>520 ₽</span>
           <div className='button__delimiter'></div>

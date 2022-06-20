@@ -1,13 +1,20 @@
-import React, { createContext, useEffect, useState } from 'react'
+import React, { createContext, useEffect, useRef, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { setCategoryId, setSortType } from '../redux/slices/filterSlice'
+import {
+  setCategoryId,
+  setSortType,
+  setFilters,
+} from '../redux/slices/filterSlice'
 import axios from 'axios'
+import qs from 'qs'
 
 import Categories from '../components/categories/Categories'
 import Sort from '../components/sort/Sort'
 import Skeleton from './../components/PizzaBlock/Skeleton'
 import PizzaBlock from './../components/PizzaBlock'
 import AppLayout from '../layouts/AppLayout'
+import { useNavigate } from 'react-router-dom'
+import { sortList } from './../components/sort/Sort'
 
 export const SearchContext = createContext('')
 
@@ -15,6 +22,11 @@ export default function Home() {
   const dispatch = useDispatch()
   const { categoryId, sort } = useSelector((state) => state.filter)
   const sortType = sort
+
+  const navigate = useNavigate()
+
+  const isSearch = useRef(false)
+  const isMounted = useRef(false)
 
   const [items, setItems] = useState([])
   const [isLoading, setIsLoading] = useState(true)
@@ -28,14 +40,13 @@ export default function Home() {
     dispatch(setSortType(id))
   }
 
-  useEffect(() => {
+  const fetchPizzas = () => {
     const sortBy = sortType.sortProperty.replace('-', '')
     const order = sortType.sortProperty.includes('-') ? 'asc' : 'desc'
     const category = categoryId > 0 ? `category=${categoryId}` : ''
     const search = searchValue ? `&search=${searchValue}` : ''
 
     setIsLoading(true)
-
     axios
       .get(
         `https://62adae8c402135c7acc4f3b7.mockapi.io/items?${category}&sortBy=${sortBy}&order=${order}${search}`
@@ -44,8 +55,44 @@ export default function Home() {
         setItems(res.data)
         setIsLoading(false)
       })
+  }
+
+  useEffect(() => {
+    if (window.location.search) {
+      const params = qs.parse(window.location.search.substring(1))
+
+      const sort = sortList.find(
+        (obj) => obj.sortProperty === params.sortProperty
+      )
+
+      dispatch(
+        setFilters({
+          ...params,
+          sort,
+        })
+      )
+      isSearch.current = true
+    }
+  }, [])
+
+  useEffect(() => {
     window.scrollTo(0, 0)
+    if (!isSearch.current) {
+      fetchPizzas()
+    }
+    isSearch.current = false
   }, [categoryId, sortType, searchValue])
+
+  useEffect(() => {
+    if (isMounted.current) {
+      const queryString = qs.stringify({
+        sortProperty: sort.sortProperty,
+        categoryId,
+      })
+      navigate(`?${queryString}`)
+    }
+    isMounted.current = true
+  }, [categoryId, sortType])
 
   return (
     <SearchContext.Provider value={{ searchValue, setSearchValue }}>
@@ -61,7 +108,7 @@ export default function Home() {
           <h2 className='content__title'>Все пиццы</h2>
           <div className='content__items'>
             {isLoading
-              ? [...new Array(8)].map((_, i) => <Skeleton key={i} />)
+              ? [...new Array(4)].map((_, i) => <Skeleton key={i} />)
               : items.map((obj) => <PizzaBlock key={obj.id} {...obj} />)}
           </div>
         </div>

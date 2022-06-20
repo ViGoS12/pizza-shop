@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-const list = [
+export const sortList = [
   { name: 'популярности', sortProperty: 'rating' },
   { name: 'цене', sortProperty: 'price' },
   { name: 'алфавиту', sortProperty: '-title' },
@@ -34,7 +34,7 @@ export default function Sort({ value, onChangeSort }) {
       {isVisible && (
         <div className='sort__popup'>
           <ul>
-            {list.map((obj, i) => (
+            {sortList.map((obj, i) => (
               <li
                 key={i}
                 onClick={() => onClickListItem(obj)}
