@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 
 export const sortList = [
   { name: 'популярности', sortProperty: 'rating' },
@@ -9,13 +9,27 @@ export const sortList = [
 export default function Sort({ value, onChangeSort }) {
   const [isVisible, setIsVisible] = useState(false)
 
+  const sortRef = useRef()
+
+  useEffect(() => {
+    const hangleClickOutside = (event) => {
+      if (!event.path.includes(sortRef.current)) {
+        setIsVisible(false)
+      }
+    }
+
+    document.body.addEventListener('click', hangleClickOutside)
+
+    return () => document.body.removeEventListener('click', hangleClickOutside)
+  }, [])
+
   const onClickListItem = (index) => {
     onChangeSort(index)
     setIsVisible((visible) => !visible)
   }
 
   return (
-    <div className='sort'>
+    <div className='sort' ref={sortRef}>
       <div className='sort__label'>
         <svg
           width='10'
