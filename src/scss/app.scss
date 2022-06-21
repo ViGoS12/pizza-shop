@@ -256,10 +256,8 @@ body {
       }
 
       &-minus {
-        svg {
-          path:first-of-type {
-            display: none;
-          }
+        path:first-of-type {
+          display: none;
         }
       }
     }
