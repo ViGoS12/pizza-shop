@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { useSelector, useDispatch } from 'react-redux'
@@ -9,7 +9,6 @@ import {
 } from '../redux/slices/filterSlice'
 import { fetchPizzas } from '../redux/slices/pizzaSlice'
 
-import axios from 'axios'
 import qs from 'qs'
 
 import Categories from '../components/categories/Categories'
@@ -19,11 +18,9 @@ import PizzaBlock from './../components/PizzaBlock'
 import AppLayout from '../layouts/AppLayout'
 import { sortList } from './../components/sort/Sort'
 
-export const SearchContext = createContext('')
-
 export default function Home() {
   const dispatch = useDispatch()
-  const { categoryId, sort } = useSelector((state) => state.filter)
+  const { categoryId, sort, searchValue } = useSelector((state) => state.filter)
   const { items, status } = useSelector((state) => state.pizza)
   const sortType = sort
 
@@ -31,8 +28,6 @@ export default function Home() {
 
   const isSearch = useRef(false)
   const isMounted = useRef(false)
-
-  const [searchValue, setSearchValue] = useState('')
 
   const onChangeCategory = (id) => {
     dispatch(setCategoryId(id))
@@ -96,33 +91,28 @@ export default function Home() {
   }, [categoryId, sortType])
 
   return (
-    <SearchContext.Provider value={{ searchValue, setSearchValue }}>
-      <AppLayout>
-        <div className='container'>
-          <div className='content__top'>
-            <Categories
-              value={categoryId}
-              onChangeCategory={onChangeCategory}
-            />
-            <Sort value={sortType} onChangeSort={setSort} />
-          </div>
-
-          {status === 'error' ? (
-            <div>
-              <h2 className='content__error-info'>Произошла ошибка</h2>
-            </div>
-          ) : (
-            <>
-              <h2 className='content__title'>Все пиццы</h2>
-              <div className='content__items'>
-                {status === 'loading'
-                  ? [...new Array(4)].map((_, i) => <Skeleton key={i} />)
-                  : items.map((obj) => <PizzaBlock key={obj.id} {...obj} />)}
-              </div>
-            </>
-          )}
+    <AppLayout>
+      <div className='container'>
+        <div className='content__top'>
+          <Categories value={categoryId} onChangeCategory={onChangeCategory} />
+          <Sort value={sortType} onChangeSort={setSort} />
         </div>
-      </AppLayout>
-    </SearchContext.Provider>
+
+        {status === 'error' ? (
+          <div>
+            <h2 className='content__error-info'>Произошла ошибка</h2>
+          </div>
+        ) : (
+          <>
+            <h2 className='content__title'>Все пиццы</h2>
+            <div className='content__items'>
+              {status === 'loading'
+                ? [...new Array(4)].map((_, i) => <Skeleton key={i} />)
+                : items.map((obj) => <PizzaBlock key={obj.id} {...obj} />)}
+            </div>
+          </>
+        )}
+      </div>
+    </AppLayout>
   )
 }
