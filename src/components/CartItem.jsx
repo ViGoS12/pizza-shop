@@ -13,7 +13,7 @@ export default function CartItem({
 }) {
   const dispatch = useDispatch()
 
-  const onClickPlis = () => {
+  const onClickPlus = () => {
     dispatch(addItem({ id }))
   }
 
@@ -60,7 +60,7 @@ export default function CartItem({
         <b>{count}</b>
         <button
           className='button button--outline button--circle cart__item-count-plus'
-          onClick={onClickPlis}>
+          onClick={onClickPlus}>
           <svg
             width='10'
             height='10'
