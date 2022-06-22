@@ -1,10 +1,14 @@
 import React, { createContext, useEffect, useRef, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+
 import { useSelector, useDispatch } from 'react-redux'
 import {
   setCategoryId,
   setSortType,
   setFilters,
 } from '../redux/slices/filterSlice'
+import { fetchPizzas } from '../redux/slices/pizzaSlice'
+
 import axios from 'axios'
 import qs from 'qs'
 
@@ -13,7 +17,6 @@ import Sort from '../components/sort/Sort'
 import Skeleton from './../components/PizzaBlock/Skeleton'
 import PizzaBlock from './../components/PizzaBlock'
 import AppLayout from '../layouts/AppLayout'
-import { useNavigate } from 'react-router-dom'
 import { sortList } from './../components/sort/Sort'
 
 export const SearchContext = createContext('')
@@ -21,6 +24,7 @@ export const SearchContext = createContext('')
 export default function Home() {
   const dispatch = useDispatch()
   const { categoryId, sort } = useSelector((state) => state.filter)
+  const { items, status } = useSelector((state) => state.pizza)
   const sortType = sort
 
   const navigate = useNavigate()
@@ -28,8 +32,6 @@ export default function Home() {
   const isSearch = useRef(false)
   const isMounted = useRef(false)
 
-  const [items, setItems] = useState([])
-  const [isLoading, setIsLoading] = useState(true)
   const [searchValue, setSearchValue] = useState('')
 
   const onChangeCategory = (id) => {
@@ -40,21 +42,21 @@ export default function Home() {
     dispatch(setSortType(id))
   }
 
-  const fetchPizzas = () => {
+  const getPizzas = async () => {
     const sortBy = sortType.sortProperty.replace('-', '')
     const order = sortType.sortProperty.includes('-') ? 'asc' : 'desc'
     const category = categoryId > 0 ? `category=${categoryId}` : ''
     const search = searchValue ? `&search=${searchValue}` : ''
 
-    setIsLoading(true)
-    axios
-      .get(
-        `https://62adae8c402135c7acc4f3b7.mockapi.io/items?${category}&sortBy=${sortBy}&order=${order}${search}`
-      )
-      .then((res) => {
-        setItems(res.data)
-        setIsLoading(false)
+    dispatch(
+      fetchPizzas({
+        sortBy,
+        order,
+        category,
+        search,
       })
+    )
+    window.scrollTo(0, 0)
   }
 
   useEffect(() => {
@@ -76,9 +78,8 @@ export default function Home() {
   }, [])
 
   useEffect(() => {
-    window.scrollTo(0, 0)
     if (!isSearch.current) {
-      fetchPizzas()
+      getPizzas()
     }
     isSearch.current = false
   }, [categoryId, sortType, searchValue])
@@ -105,12 +106,21 @@ export default function Home() {
             />
             <Sort value={sortType} onChangeSort={setSort} />
           </div>
-          <h2 className='content__title'>Все пиццы</h2>
-          <div className='content__items'>
-            {isLoading
-              ? [...new Array(4)].map((_, i) => <Skeleton key={i} />)
-              : items.map((obj) => <PizzaBlock key={obj.id} {...obj} />)}
-          </div>
+
+          {status === 'error' ? (
+            <div>
+              <h2 className='content__error-info'>Произошла ошибка</h2>
+            </div>
+          ) : (
+            <>
+              <h2 className='content__title'>Все пиццы</h2>
+              <div className='content__items'>
+                {status === 'loading'
+                  ? [...new Array(4)].map((_, i) => <Skeleton key={i} />)
+                  : items.map((obj) => <PizzaBlock key={obj.id} {...obj} />)}
+              </div>
+            </>
+          )}
         </div>
       </AppLayout>
     </SearchContext.Provider>

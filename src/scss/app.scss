@@ -26,6 +26,17 @@ body {
 .content {
   padding: 40px 0;
 
+  &__error-info {
+    margin: 60px auto;
+    width: 580px;
+    text-align: center;
+
+    h2 {
+      font-size: 28px;
+      font-weight: 20px;
+    }
+  }
+
   &__title {
     margin: 35px 0;
     @media (max-width: 768px) {
