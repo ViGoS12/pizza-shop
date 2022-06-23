@@ -1,7 +1,11 @@
-import React, { useState } from 'react'
 import { CATEGORIES } from '../../constants'
 
-export default function Categories({ value, onChangeCategory }) {
+type CategoriesProps = {
+  value: number
+  onChangeCategory: any
+}
+
+const Categories: React.FC<CategoriesProps> = ({ value, onChangeCategory }) => {
   return (
     <div className='categories'>
       <ul>
@@ -17,3 +21,5 @@ export default function Categories({ value, onChangeCategory }) {
     </div>
   )
 }
+
+export default Categories

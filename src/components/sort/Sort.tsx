@@ -1,18 +1,28 @@
-import React, { useRef, useState, useEffect } from 'react'
+import { useRef, useState, useEffect } from 'react'
 
-export const sortList = [
+type SortItem = {
+  name: string
+  sortProperty: string
+}
+
+type SortProps = {
+  value: any
+  onChangeSort: any
+}
+
+export const sortList: SortItem[] = [
   { name: 'популярности', sortProperty: 'rating' },
   { name: 'цене', sortProperty: 'price' },
   { name: 'алфавиту', sortProperty: '-title' },
 ]
 
-export default function Sort({ value, onChangeSort }) {
+const Sort: React.FC<SortProps> = ({ value, onChangeSort }) => {
   const [isVisible, setIsVisible] = useState(false)
 
-  const sortRef = useRef()
+  const sortRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    const hangleClickOutside = (event) => {
+    const hangleClickOutside = (event: any) => {
       if (!event.path.includes(sortRef.current)) {
         setIsVisible(false)
       }
@@ -23,7 +33,7 @@ export default function Sort({ value, onChangeSort }) {
     return () => document.body.removeEventListener('click', hangleClickOutside)
   }, [])
 
-  const onClickListItem = (index) => {
+  const onClickListItem = (index: SortItem) => {
     onChangeSort(index)
     setIsVisible((visible) => !visible)
   }
@@ -64,3 +74,4 @@ export default function Sort({ value, onChangeSort }) {
     </div>
   )
 }
+export default Sort

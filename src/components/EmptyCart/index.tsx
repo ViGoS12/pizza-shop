@@ -1,5 +1,3 @@
-import React from 'react'
-
 import styles from './EmptyCart.module.scss'
 
 export default function EmptyCart() {
