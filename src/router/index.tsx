@@ -1,8 +1,8 @@
 import React from 'react'
 
-import Cart from '../pages/Cart'
 import Home from './../pages/Home'
 import NotFound from './../pages/NotFound'
+import Cart from './../pages/Cart'
 
 export const publicRoutes = [
   { path: '', element: <Home /> },

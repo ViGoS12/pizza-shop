@@ -1,7 +1,6 @@
-import React from 'react'
 import ContentLoader from 'react-content-loader'
 
-export default function Skeleton() {
+const Skeleton: React.FC = () => {
   return (
     <div>
       <ContentLoader
@@ -21,3 +20,5 @@ export default function Skeleton() {
     </div>
   )
 }
+
+export default Skeleton

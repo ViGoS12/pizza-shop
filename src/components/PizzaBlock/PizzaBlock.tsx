@@ -1,31 +1,40 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { addItem } from '../../redux/slices/cartSlice'
 
 const typeNames = ['тонкое', 'традиционное']
 
-export default function PizzaBlock({
+type PizzaBlockProps = {
+  id: number
+  title: string
+  price: number
+  imageUrl: string
+  sizes: number[]
+  types: number[]
+}
+
+const PizzaBlock: React.FC<PizzaBlockProps> = ({
   id,
   title = 'defaultPizza',
   price = 'free',
   imageUrl,
   sizes,
   types,
-}) {
+}) => {
   const [activeType, setActiveType] = useState(types[0])
   const [activeSize, setActiveSize] = useState(0)
 
   const dispatch = useDispatch()
-  const cartItem = useSelector((state) =>
-    state.cart.items.find((obj) => obj.id === id)
+  const cartItem = useSelector((state: any) =>
+    state.cart.items.find((obj: any) => obj.id === id)
   )
 
   const addedCount = cartItem ? cartItem.count : 0
 
-  const onClickType = (index) => {
+  const onClickType = (index: number) => {
     setActiveType(index)
   }
-  const onClickSize = (index) => {
+  const onClickSize = (index: number) => {
     setActiveSize(index)
   }
 
@@ -90,3 +99,5 @@ export default function PizzaBlock({
     </div>
   )
 }
+
+export default PizzaBlock

@@ -1,6 +1,6 @@
 import './scss/app.scss'
 import { Route, Routes } from 'react-router-dom'
-import { publicRoutes } from './router'
+import { publicRoutes } from './router/index'
 import AppLayout from './layouts/AppLayout'
 
 function App() {

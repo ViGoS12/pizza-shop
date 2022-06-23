@@ -15,7 +15,7 @@ export default function Search() {
   const dispatch = useDispatch()
 
   const [value, setValue] = useState('')
-  const inputRef = useRef()
+  const inputRef = useRef<HTMLInputElement>(null)
 
   const updateSearchValue = useCallback(
     debounce((str) => {
@@ -24,7 +24,7 @@ export default function Search() {
     []
   )
 
-  const onChangeInput = (event) => {
+  const onChangeInput = (event: any) => {
     setValue(event.target.value)
     updateSearchValue(event.target.value)
   }
@@ -32,7 +32,7 @@ export default function Search() {
   const onClickClear = () => {
     dispatch(setSearchValue(''))
     setValue('')
-    inputRef.current.focus()
+    inputRef.current?.focus()
   }
 
   return (

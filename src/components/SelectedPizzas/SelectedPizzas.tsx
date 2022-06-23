@@ -1,4 +1,3 @@
-import React from 'react'
 import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { clearItems, selectCart } from '../../redux/slices/cartSlice'
@@ -6,11 +5,14 @@ import cartIcon from '../../assets/svg/cart-icon.svg'
 import garbageIcon from '../../assets/svg/garbage-icon.svg'
 import CartItem from '../CartItem'
 
-export default function SelectedPizzas() {
+const SelectedPizzas = () => {
   const dispatch = useDispatch()
   const { items, totalPrice } = useSelector(selectCart)
 
-  const totalCount = items.reduce((sum, item) => sum + item.count, 0)
+  const totalCount = items.reduce(
+    (sum: number, item: any) => sum + item.count,
+    0
+  )
 
   const onClickClear = () => {
     if (window.confirm('Очистить корзину?')) {
@@ -35,7 +37,7 @@ export default function SelectedPizzas() {
           </div>
 
           <div className='content__items'>
-            {items.map((item) => (
+            {items.map((item: any) => (
               <CartItem key={item.id} {...item} />
             ))}
           </div>
@@ -78,3 +80,5 @@ export default function SelectedPizzas() {
     </div>
   )
 }
+
+export default SelectedPizzas
