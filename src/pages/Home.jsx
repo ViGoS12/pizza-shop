@@ -15,7 +15,6 @@ import Categories from '../components/categories/Categories'
 import Sort from '../components/sort/Sort'
 import Skeleton from './../components/PizzaBlock/Skeleton'
 import PizzaBlock from './../components/PizzaBlock'
-import AppLayout from '../layouts/AppLayout'
 import { sortList } from './../components/sort/Sort'
 
 export default function Home() {
@@ -91,28 +90,26 @@ export default function Home() {
   }, [categoryId, sortType])
 
   return (
-    <AppLayout>
-      <div className='container'>
-        <div className='content__top'>
-          <Categories value={categoryId} onChangeCategory={onChangeCategory} />
-          <Sort value={sortType} onChangeSort={setSort} />
-        </div>
-
-        {status === 'error' ? (
-          <div>
-            <h2 className='content__error-info'>Произошла ошибка</h2>
-          </div>
-        ) : (
-          <>
-            <h2 className='content__title'>Все пиццы</h2>
-            <div className='content__items'>
-              {status === 'loading'
-                ? [...new Array(4)].map((_, i) => <Skeleton key={i} />)
-                : items.map((obj) => <PizzaBlock key={obj.id} {...obj} />)}
-            </div>
-          </>
-        )}
+    <div className='container'>
+      <div className='content__top'>
+        <Categories value={categoryId} onChangeCategory={onChangeCategory} />
+        <Sort value={sortType} onChangeSort={setSort} />
       </div>
-    </AppLayout>
+
+      {status === 'error' ? (
+        <div>
+          <h2 className='content__error-info'>Произошла ошибка</h2>
+        </div>
+      ) : (
+        <>
+          <h2 className='content__title'>Все пиццы</h2>
+          <div className='content__items'>
+            {status === 'loading'
+              ? [...new Array(4)].map((_, i) => <Skeleton key={i} />)
+              : items.map((obj) => <PizzaBlock key={obj.id} {...obj} />)}
+          </div>
+        </>
+      )}
+    </div>
   )
 }

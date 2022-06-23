@@ -1,17 +1,20 @@
 import './scss/app.scss'
 import { Route, Routes } from 'react-router-dom'
 import { publicRoutes } from './router'
+import AppLayout from './layouts/AppLayout'
 
 function App() {
   return (
     <div>
       <Routes>
-        {publicRoutes.map((route) => (
-          <Route
-            path={route.path}
-            element={route.element}
-            key={route.path}></Route>
-        ))}
+        <Route path='/' element={<AppLayout />}>
+          {publicRoutes.map((route) => (
+            <Route
+              path={route.path}
+              element={route.element}
+              key={route.path}></Route>
+          ))}
+        </Route>
       </Routes>
     </div>
   )
