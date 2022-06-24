@@ -6,8 +6,8 @@ type SortItem = {
 }
 
 type SortProps = {
-  value: any
-  onChangeSort: any
+  value: { name: string; sortProperty: string }
+  onChangeSort: ({}) => void
 }
 
 export const sortList: SortItem[] = [
@@ -22,8 +22,9 @@ const Sort: React.FC<SortProps> = ({ value, onChangeSort }) => {
   const sortRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    const hangleClickOutside = (event: any) => {
-      if (!event.path.includes(sortRef.current)) {
+    const hangleClickOutside = (event: MouseEvent) => {
+      const myEvent = event as MouseEvent & { path: Node[] }
+      if (sortRef.current && !myEvent.path.includes(sortRef.current)) {
         setIsVisible(false)
       }
     }
