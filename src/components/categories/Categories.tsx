@@ -2,7 +2,7 @@ import { CATEGORIES } from '../../constants'
 
 type CategoriesProps = {
   value: number
-  onChangeCategory: any
+  onChangeCategory: (id: number) => void
 }
 
 const Categories: React.FC<CategoriesProps> = ({ value, onChangeCategory }) => {
